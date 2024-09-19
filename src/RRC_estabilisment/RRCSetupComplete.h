@@ -26,11 +26,12 @@ typedef struct RRCSetupComplete {
 		union RRCSetupComplete__criticalExtensions_u {
 			RRCSetupComplete_IEs_t	 rrcSetupComplete;
 			struct RRCSetupComplete__criticalExtensions__criticalExtensionsFuture {
-				int:0; //empthy
+				asn_struct_ctx_t _asn_ctx;
 			} criticalExtensionsFuture;
 		} choice;
-	
+	asn_struct_ctx_t _asn_ctx;
 	} criticalExtensions;
+	asn_struct_ctx_t _asn_ctx;
 } RRCSetupComplete_t;
 
 

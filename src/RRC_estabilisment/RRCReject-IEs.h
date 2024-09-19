@@ -8,19 +8,21 @@
 #ifndef	_RRCReject_IEs_H_
 #define	_RRCReject_IEs_H_
 
+
+#include "asn_struct.h"
 #include "typdef.h"
 #include "RejectWaitTime.h"
+
+
 
 /* RRCReject-IEs */
 typedef struct RRCReject_IEs {
 	RejectWaitTime_t	*waitTime	/* OPTIONAL */;
 	OCTET_STRING_t	*lateNonCriticalExtension	/* OPTIONAL */;
 	struct RRCReject_IEs__nonCriticalExtension {
-		
+		asn_struct_ctx_t _asn_ctx;
 	} *nonCriticalExtension;
-	
-
-
+	asn_struct_ctx_t _asn_ctx;
 } RRCReject_IEs_t;
 
 

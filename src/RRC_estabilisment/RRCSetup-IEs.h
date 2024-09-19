@@ -20,7 +20,7 @@ typedef struct RRCSetup_IEs {
 	OCTET_STRING_t	 masterCellGroup;
 	OCTET_STRING_t	*lateNonCriticalExtension	/* OPTIONAL */;
 	struct RRCSetup_v1700_IEs	*nonCriticalExtension	/* OPTIONAL */;
-
+	asn_struct_ctx_t _asn_ctx;
 } RRCSetup_IEs_t;
 
 

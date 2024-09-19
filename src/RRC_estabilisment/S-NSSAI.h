@@ -22,7 +22,7 @@ typedef struct S_NSSAI {
 		BIT_STRING_t	 sst;
 		BIT_STRING_t	 sst_SD;
 	} choice;
-	
+	asn_struct_ctx_t _asn_ctx;
 } S_NSSAI_t;
 
 

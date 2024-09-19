@@ -29,8 +29,6 @@ MessageData_t* ber_decode_RRCSetupRequest_Message(uint8_t *buffer){
         return NULL;
     }
 
-    return MessageData;
-
 }
 int ber_decode_RRCSetupRequest(const uint8_t* encoded_data, RRCSetupRequest_t* RRCSetupRequest) {
     

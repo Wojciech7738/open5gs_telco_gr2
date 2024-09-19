@@ -29,10 +29,12 @@ typedef struct RRCSetup {
 			RRCSetup_IEs_t	 rrcSetup;
 			struct RRCSetup__criticalExtensions__criticalExtensionsFuture {
 			
-				
+				asn_struct_ctx_t _asn_ctx;
 			}criticalExtensionsFuture;
 		} choice;
+		asn_struct_ctx_t _asn_ctx;
 	} criticalExtensions;
+	asn_struct_ctx_t _asn_ctx;
 } RRCSetup_t;
 
 

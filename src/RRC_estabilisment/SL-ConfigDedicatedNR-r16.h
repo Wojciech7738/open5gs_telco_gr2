@@ -12,7 +12,7 @@
 /* SL-ConfigDedicatedNR-r16 */
 typedef struct SL_ConfigDedicatedNR_r16 {
 	
-	int:0;
+	asn_struct_ctx_t _asn_ctx;
 	//todo
 	
 } SL_ConfigDedicatedNR_r16_t;

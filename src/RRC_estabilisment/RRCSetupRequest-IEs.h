@@ -17,7 +17,7 @@ typedef struct RRCSetupRequest_IEs {
 	InitialUE_Identity_t	 ue_Identity;
 	EstablishmentCause_t	 establishmentCause;
 	//BIT_STRING_t spare;
-	
+	asn_struct_ctx_t _asn_ctx;
 } RRCSetupRequest_IEs_t;
 
 #endif	/* _RRCSetupRequest_IEs_H_ */

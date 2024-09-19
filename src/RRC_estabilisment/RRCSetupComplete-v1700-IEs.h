@@ -7,7 +7,7 @@
 
 #ifndef	_RRCSetupComplete_v1700_IEs_H_
 #define	_RRCSetupComplete_v1700_IEs_H_
-
+#include "asn_struct.h"
 /* Dependencies */
 typedef enum RRCSetupComplete_v1700_IEs__onboardingRequest_r17 {
 	RRCSetupComplete_v1700_IEs__onboardingRequest_r17_true	= 0
@@ -20,7 +20,7 @@ struct RRCSetupComplete_v1800_IEs;
 typedef struct RRCSetupComplete_v1700_IEs {
 	long	*onboardingRequest_r17	/* OPTIONAL */;
 	struct RRCSetupComplete_v1800_IEs	*nonCriticalExtension	/* OPTIONAL */;
-	
+	asn_struct_ctx_t _asn_ctx;
 } RRCSetupComplete_v1700_IEs_t;
 
 #endif	/* _RRCSetupComplete_v1700_IEs_H_ */

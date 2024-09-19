@@ -24,12 +24,12 @@ typedef struct RRCReject {
 		union RRCReject__criticalExtensions_u {
 			RRCReject_IEs_t	 rrcReject;
 			struct RRCReject__criticalExtensions__criticalExtensionsFuture {
-
+				asn_struct_ctx_t _asn_ctx;
 			} criticalExtensionsFuture;
 		} choice;
-		
+		asn_struct_ctx_t _asn_ctx;
 	} criticalExtensions;
-
+asn_struct_ctx_t _asn_ctx;
 } RRCReject_t;
 
 

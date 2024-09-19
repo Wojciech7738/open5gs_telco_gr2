@@ -24,7 +24,7 @@ typedef struct InitialUE_Identity {
 		BIT_STRING_t	 ng_5G_S_TMSI_Part1;
 		BIT_STRING_t	 randomValue;
 	} choice;
-	
+	asn_struct_ctx_t _asn_ctx;
 } InitialUE_Identity_t;
 
 

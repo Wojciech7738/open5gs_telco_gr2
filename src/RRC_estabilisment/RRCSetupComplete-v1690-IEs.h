@@ -7,6 +7,7 @@
 
 #ifndef	_RRCSetupComplete_v1690_IEs_H_
 #define	_RRCSetupComplete_v1690_IEs_H_
+#include "asn_struct.h"
 
 /* Dependencies */
 typedef enum RRCSetupComplete_v1690_IEs__ul_RRC_Segmentation_r16 {
@@ -20,7 +21,7 @@ struct RRCSetupComplete_v1700_IEs;
 typedef struct RRCSetupComplete_v1690_IEs {
 	long	*ul_RRC_Segmentation_r16	/* OPTIONAL */;
 	struct RRCSetupComplete_v1700_IEs	*nonCriticalExtension	/* OPTIONAL */;
-
+	asn_struct_ctx_t _asn_ctx;
 } RRCSetupComplete_v1690_IEs_t;
 
 

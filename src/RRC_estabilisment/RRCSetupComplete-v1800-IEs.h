@@ -7,7 +7,7 @@
 
 #ifndef	_RRCSetupComplete_v1800_IEs_H_
 #define	_RRCSetupComplete_v1800_IEs_H_
-
+#include "asn_struct.h"
 /* Dependencies */
 typedef enum RRCSetupComplete_v1800_IEs__ncr_NodeIndication_r18 {
 	RRCSetupComplete_v1800_IEs__ncr_NodeIndication_r18_true	= 0
@@ -37,9 +37,9 @@ typedef struct RRCSetupComplete_v1800_IEs {
 	long	*mobileIAB_NodeIndication_r18	/* OPTIONAL */;
 	long	*reselectionMeasAvailable_r18	/* OPTIONAL */;
 	struct RRCSetupComplete_v1800_IEs__nonCriticalExtension {
-
+			asn_struct_ctx_t _asn_ctx;
 	} *nonCriticalExtension;
-
+	asn_struct_ctx_t _asn_ctx;
 } RRCSetupComplete_v1800_IEs_t;
 
 #endif	/* _RRCSetupComplete_v1800_IEs_H_ */

@@ -11,7 +11,7 @@
 
 /* SL-L2RemoteUE-Config-r17 */
 typedef struct SL_L2RemoteUE_Config_r17 {
-	int:0;
+	asn_struct_ctx_t _asn_ctx;
 	//todo
 
 } SL_L2RemoteUE_Config_r17_t;

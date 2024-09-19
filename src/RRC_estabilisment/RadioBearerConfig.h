@@ -10,7 +10,7 @@
 
 /* RadioBearerConfig */
 typedef struct RadioBearerConfig {
-    
+    asn_struct_ctx_t _asn_ctx;
 } RadioBearerConfig_t;
 
 #endif	/* _RadioBearerConfig_H_ */

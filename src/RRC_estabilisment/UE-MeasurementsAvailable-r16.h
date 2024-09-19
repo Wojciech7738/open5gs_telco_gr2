@@ -7,10 +7,10 @@
 
 #ifndef	_UE_MeasurementsAvailable_r16_H_
 #define	_UE_MeasurementsAvailable_r16_H_
-
+#include "asn_struct.h"
 /* UE-MeasurementsAvailable-r16 */
 typedef struct UE_MeasurementsAvailable_r16 {
-	
+	asn_struct_ctx_t _asn_ctx;
 	//todo
 } UE_MeasurementsAvailable_r16_t;
 

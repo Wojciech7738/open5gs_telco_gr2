@@ -8,7 +8,7 @@
 #ifndef	_RRCSetup_v1700_IEs_H_
 #define	_RRCSetup_v1700_IEs_H_
 
-
+#include "asn_struct.h"
 
 #include "SL-ConfigDedicatedNR-r16.h"
 #include "SL-L2RemoteUE-Config-r17.h"
@@ -19,9 +19,9 @@ typedef struct RRCSetup_v1700_IEs {
 	struct SL_L2RemoteUE_Config_r17	*sl_L2RemoteUE_Config_r17	/* OPTIONAL */;
 	struct RRCSetup_v1700_IEs__nonCriticalExtension {
 		
-	
+		asn_struct_ctx_t _asn_ctx;
 	} *nonCriticalExtension;
-	
+	asn_struct_ctx_t _asn_ctx;
 } RRCSetup_v1700_IEs_t;
 
 

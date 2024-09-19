@@ -8,6 +8,8 @@
 #ifndef	_RRCSetupComplete_v1610_IEs_H_
 #define	_RRCSetupComplete_v1610_IEs_H_
 
+#include "asn_struct.h"
+
 /* Dependencies */
 typedef enum RRCSetupComplete_v1610_IEs__iab_NodeIndication_r16 {
 	RRCSetupComplete_v1610_IEs__iab_NodeIndication_r16_true	= 0
@@ -37,7 +39,7 @@ typedef struct RRCSetupComplete_v1610_IEs {
 	long	*mobilityHistoryAvail_r16	/* OPTIONAL */;
 	long	*mobilityState_r16	/* OPTIONAL */;
 	struct RRCSetupComplete_v1690_IEs	*nonCriticalExtension	/* OPTIONAL */;
-	
+	asn_struct_ctx_t _asn_ctx;
 } RRCSetupComplete_v1610_IEs_t;
 
 #endif	/* _RRCSetupComplete_v1610_IEs_H_ */

@@ -13,7 +13,7 @@
 /* RRCSetupRequest */
 typedef struct RRCSetupRequest {
 	RRCSetupRequest_IEs_t	 rrcSetupRequest;
-	
+	asn_struct_ctx_t _asn_ctx;
 } RRCSetupRequest_t;
 
 

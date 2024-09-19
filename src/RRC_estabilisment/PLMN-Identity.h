@@ -8,11 +8,11 @@
 #ifndef	_PLMN_Identity_H_
 #define	_PLMN_Identity_H_
 
+#include "asn_struct.h"
+
 /* PLMN-Identity */
 typedef struct PLMN_Identity_s {
-	
-	//todo
-	
+	asn_struct_ctx_t _asn_ctx;
 } PLMN_Identity_t;
 
 
