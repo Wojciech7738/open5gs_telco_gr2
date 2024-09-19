@@ -1,0 +1,11 @@
+#ifndef TAG_H
+#define TAG_H
+
+#define RRC_SETUP_REQUEST_TAG 0xA1
+#define RRC_SETUP_REQUEST_IEs_TAG 0xA2
+#define NG_5G_S_TMSI_Part1_TAG 0xA1
+#define RANDOM_VALUE_TAG 0xA2
+#define OCTET_STRING_TAG 0x04
+#define BIT_STRING_TAG 0x03
+
+#endif
