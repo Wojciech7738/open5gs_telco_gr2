@@ -38,6 +38,7 @@ subdir('hss')
 subdir('sgwc')
 subdir('sgwu')
 subdir('pcrf')
+subdir('auth')
 
 subdir('nrf')
 subdir('scp')

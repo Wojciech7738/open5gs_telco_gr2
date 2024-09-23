@@ -1,5 +1,4 @@
-#include "nas-path.h"
-#include "ogs-log.h"
+#include "auth_security.h"
 
 // Function to send Security Mode Command to UE
 void send_security_mode_command(amf_ue_t *amf_ue) {

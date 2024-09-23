@@ -1,6 +1,4 @@
-#include "authentication_messages.h"
-#include "../RRC_estabilisment/DedicatedNAS-Message.h"
-
+#include "auth_decode.h"
 
 // Function to unpack DedicatedNAS_Message_t into AuthenticationRequest
 int unpack_authentication_request(DedicatedNAS_Message_t *nas_message, struct AuthenticationRequest *auth_req) {

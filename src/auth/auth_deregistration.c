@@ -1,5 +1,4 @@
-#include "nas-path.h"
-#include "ogs-log.h"
+#include "auth_deregistration.h"
 
 // Function to send De-registration Request to UE
 void send_deregistration_request(amf_ue_t *amf_ue, OpenAPI_deregistration_reason_e dereg_reason, ogs_nas_5gmm_cause_t gmm_cause) {
