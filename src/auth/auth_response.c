@@ -1,5 +1,4 @@
-#include "nas-path.h"
-#include "ogs-log.h"
+#include "auth_response.h"
 
 // Function to handle receiving AuthenticationResponse from RLC/MAC and send to AMF
 void handle_receive_authentication_response(amf_ue_t *amf_ue, uint8_t *mac_message, int message_length) {

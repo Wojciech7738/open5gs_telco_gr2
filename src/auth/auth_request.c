@@ -1,5 +1,4 @@
-#include "nas-path.h"
-#include "ogs-log.h"
+#include "auth_request.h"
 
 // Function to pack and send AuthenticationRequest using nas_5gs_send_authentication_request
 void send_authentication_request(amf_ue_t *amf_ue, struct AuthenticationRequest *auth_req) {

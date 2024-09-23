@@ -1,5 +1,4 @@
-#include "nas-path.h"
-#include "ogs-log.h"
+#include "auth_registration.h"
 
 // Function to send Registration Accept message to UE
 void send_registration_accept(amf_ue_t *amf_ue) {
