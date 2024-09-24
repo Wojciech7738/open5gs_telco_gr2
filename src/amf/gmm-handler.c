@@ -964,12 +964,12 @@ int gmm_handle_authentication_response(amf_ue_t *amf_ue,
 ogs_nas_5gmm_cause_t gmm_handle_identity_response(amf_ue_t *amf_ue,
         ogs_nas_5gs_identity_response_t *identity_response)
 {
-    ran_ue_t *ran_ue = NULL;
-    uint8_t gmm_cause;
+    // ran_ue_t *ran_ue = NULL;
+    // uint8_t gmm_cause;
 
-    ogs_nas_5gs_mobile_identity_t *mobile_identity = NULL;
-    ogs_nas_5gs_mobile_identity_suci_t *mobile_identity_suci = NULL;
-    ogs_nas_5gs_mobile_identity_header_t *mobile_identity_header = NULL;
+    // ogs_nas_5gs_mobile_identity_t *mobile_identity = NULL;
+    // ogs_nas_5gs_mobile_identity_suci_t *mobile_identity_suci = NULL;
+    // ogs_nas_5gs_mobile_identity_header_t *mobile_identity_header = NULL;
 
 //TODO
 
