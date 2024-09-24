@@ -15,32 +15,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-testunit_unit_sources = files('''
-    abts-main.c
-    proto-message-test.c
-    s1ap-message-test.c
-    nas-message-test.c
-    gtp-message-test.c
-    ngap-message-test.c
-    sbi-message-test.c
-    security-test.c
-    crash-test.c
-    rrc-handler-test.c
-'''.split())
 
-testunit_unit_exe = executable('unit',
-    sources : testunit_unit_sources,
-    c_args : [testunit_core_cc_flags, sbi_cc_flags],
-    dependencies : [libs1ap_dep,
-                    libgtp_dep,
-                    libngap_dep,
-                    libnas_eps_dep,
-                    libsbi_dep,
-                    librrc_dep],
+
+librrc_sources = files(
+  'ber_decode.c',
+  'ber_enode.c',
+  'RRC_handler.c')
+
+librrc_inc = include_directories('.')
+
+librrc = static_library('RRC',
+    sources : librrc_sources,
+    include_directories : librrc_inc,
+    dependencies : libcore_dep,
+    install : false
 )
-    
 
-
-
-
-test('unit', testunit_unit_exe, is_parallel : false, suite: 'unit')
+librrc_dep = declare_dependency(
+    link_with : librrc,
+    include_directories : [librrc_inc, srcinc],
+)

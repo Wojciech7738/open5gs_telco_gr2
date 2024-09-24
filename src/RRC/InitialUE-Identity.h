@@ -9,6 +9,8 @@
 #define	_InitialUE_Identity_H_
 
 #include "typdef.h"
+#include "asn_struct.h"
+
 
 /* Dependencies */
 typedef enum InitialUE_Identity_PR {

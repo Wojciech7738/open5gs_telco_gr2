@@ -14,6 +14,7 @@ uint8_t* ber_encode_RRCSetupRequest(RRCSetupRequest_t* RRCSetupRequest,int *enco
     final_data[1] = len;  
     memcpy(final_data + 2, encoded_data, len);
     free(encoded_data);
+    *encoded_len = len+2;
     return final_data;
 
 }
@@ -30,18 +31,21 @@ uint8_t* ber_encode_RRCSetupRequestIEs(RRCSetupRequest_IEs_t* RRCSetupRequest_IE
         return NULL;
     }
     total_len += len0;
-    encoded_data1 = ber_encode_bit_string(&RRCSetupRequest_IEs->establishmentCause, &len1);
+    
+    encoded_data1 = ber_encode_cause(&RRCSetupRequest_IEs->establishmentCause, &len1);
+    
     if (!encoded_data1) {
+        free(encoded_data0); 
         return NULL;
     }
-    total_len += len1 + 2 ;
+    total_len += len1 ;
 
-    uint8_t *final_data = (uint8_t *)malloc(total_len);
+    uint8_t *final_data = (uint8_t *)malloc(total_len+2);
     if(final_data){
         final_data[0] = RRC_SETUP_REQUEST_IEs_TAG;
-        final_data[1] = len1+len0; //buffer size
-        memcpy(final_data, encoded_data0, len0);
-        memcpy(final_data + len0, encoded_data1, len1);
+        final_data[1] = total_len; //buffer size
+        memcpy(final_data + 2, encoded_data0, len0);
+        memcpy(final_data + len0 + 2, encoded_data1, len1);
         free(encoded_data0);
         free(encoded_data1);
         *encoded_len = total_len+2;
@@ -53,7 +57,7 @@ uint8_t* ber_encode_RRCSetupRequestIEs(RRCSetupRequest_IEs_t* RRCSetupRequest_IE
 }
 
 uint8_t* ber_encode_bit_string(BIT_STRING_t *bit_string, int *encoded_len) {
-    int total_len = 2 + bit_string->size + 1;  //type+lenght+size+unused
+    int total_len = bit_string->size + 3;  //type+lenght+size+unused
     uint8_t *encoded_data = (uint8_t*) malloc(total_len);
 
     if (!encoded_data) {
@@ -61,7 +65,7 @@ uint8_t* ber_encode_bit_string(BIT_STRING_t *bit_string, int *encoded_len) {
     }
 
     encoded_data[0] = BIT_STRING_TAG;
-    encoded_data[1] = bit_string->size + 1; 
+    encoded_data[1] = bit_string->size; 
     encoded_data[2] = bit_string->bits_unused;
 
     memcpy(encoded_data + 3, bit_string->buf, bit_string->size);
@@ -142,4 +146,18 @@ uint8_t* ber_encode_initial_ue_identity(InitialUE_Identity_t *identity, int *enc
 
     *encoded_len = 0;
     return NULL;
+}
+
+
+uint8_t *ber_encode_cause(EstablishmentCause_t* cause, int* len){
+    OCTET_STRING_t oc;
+    oc.size = sizeof(EstablishmentCause_t);
+    oc.buf = malloc(oc.size);
+    memcpy(oc.buf,cause,oc.size);
+
+    uint8_t* buffer = ber_encode_bit_octet(&oc,len);
+
+    free(oc.buf);
+    return buffer;
+
 }

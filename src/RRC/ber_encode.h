@@ -11,6 +11,11 @@
 #include "tag.h"
 
 uint8_t* ber_encode_RRCSetupRequest(RRCSetupRequest_t* RRCSetupRequest,int *encoded_len);
+uint8_t* ber_encode_RRCSetupRequestIEs(RRCSetupRequest_IEs_t* RRCSetupRequest_IEs, int *encoded_len);
+uint8_t* ber_encode_bit_string(BIT_STRING_t *bit_string, int *encoded_len);
+uint8_t* ber_encode_bit_octet(OCTET_STRING_t *octet_string, int *encoded_len);
+uint8_t* ber_encode_initial_ue_identity(InitialUE_Identity_t *identity, int *encoded_len);
+uint8_t *ber_encode_cause(EstablishmentCause_t* cause, int* len);
 /*
 uint8_t* ber_encode_RRCSetupRequestIEs(RRCSetupRequest_IEs_t* RRCSetupRequest_IEs, int *encoded_len);
 uint8_t* ber_encode_bit_octet(OCTET_STRING_t *octet_string, int *encoded_len);

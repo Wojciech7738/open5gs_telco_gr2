@@ -30,7 +30,7 @@ typedef enum EstablishmentCause {
 } e_EstablishmentCause;
 
 /* EstablishmentCause */
-typedef BIT_STRING_t EstablishmentCause_t;
-//todo zmień na uint16_t
+typedef uint16_t EstablishmentCause_t;
+
 #endif	/* _EstablishmentCause_H_ */
 
