@@ -16,7 +16,7 @@ int sendRRCSetup(InitialUE_Identity_t* UEid);
 int sendRRCReject(InitialUE_Identity_t* UEid);
 int handleRRCSetupComplete(RRCSetupComplete_t* RRCMessage);
 int sendNASmessage(OCTET_STRING_t* NAS);
-int ChangeRRCUEState(struct RRCSetupComplete_IEs__ng_5G_S_TMSI_Value *ng_5G_S_TMSI_Value, int state);
+int ChangeRRCUEState( RRCSetupComplete_IEs__ng_5G_S_TMSI_Value_t *ng_5G_S_TMSI_Value, int state);
 RadioBearerConfig_t getSRB0config(void);
 OCTET_STRING_t getMasterCellGroup(void);
 int isUEIdleState(InitialUE_Identity_t* ue);

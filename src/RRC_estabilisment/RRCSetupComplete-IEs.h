@@ -27,14 +27,14 @@ struct RRCSetupComplete_v1610_IEs;
 #include "DedicatedNAS-Message.h"
 #include "NG-5G-S-TMSI.h"
 
-struct RRCSetupComplete_IEs__ng_5G_S_TMSI_Value {
+typedef struct RRCSetupComplete_IEs__ng_5G_S_TMSI_Value {
     RRCSetupComplete_IEs__ng_5G_S_TMSI_Value_PR present;
     union {
         NG_5G_S_TMSI_t ng_5G_S_TMSI;
         BIT_STRING_t ng_5G_S_TMSI_Part2;
     } choice;
     asn_struct_ctx_t _asn_ctx;
-};
+}RRCSetupComplete_IEs__ng_5G_S_TMSI_Value_t;
 
 /* RRCSetupComplete-IEs */
 typedef struct RRCSetupComplete_IEs {
@@ -47,7 +47,7 @@ typedef struct RRCSetupComplete_IEs {
 		asn_struct_ctx_t _asn_ctx;
 	} *s_NSSAI_List;
 	DedicatedNAS_Message_t	 dedicatedNAS_Message;
-	struct RRCSetupComplete_IEs__ng_5G_S_TMSI_Value *ng_5G_S_TMSI_Value;
+	RRCSetupComplete_IEs__ng_5G_S_TMSI_Value_t *ng_5G_S_TMSI_Value;
 	OCTET_STRING_t	*lateNonCriticalExtension	/* OPTIONAL */;
 	struct RRCSetupComplete_v1610_IEs	*nonCriticalExtension	/* OPTIONAL */;
 	asn_struct_ctx_t _asn_ctx;

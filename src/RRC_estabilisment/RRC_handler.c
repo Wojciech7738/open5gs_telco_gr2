@@ -9,7 +9,7 @@
 #include <stdlib.h> 
 #include <string.h>
 
-//powin
+//powinno być na wątkach
 int handle_RRC(ogs_pkbuf_t* pkbuf){
     MessageData_t* RRCMessage;
     RRCMessage = ber_decode(pkbuf->data);
@@ -91,8 +91,9 @@ int sendNASmessage(OCTET_STRING_t* NAS){
     return 0;
 }
 
-int ChangeRRCUEState(struct RRCSetupComplete_IEs__ng_5G_S_TMSI_Value *ng_5G_S_TMSI_Value, int state){
-    //ogs_assert(ng_5G_S_TMSI_Value);
+int ChangeRRCUEState(RRCSetupComplete_IEs__ng_5G_S_TMSI_Value_t* ng_5G_S_TMSI_Value, int state){
+ 
+    ogs_assert(ng_5G_S_TMSI_Value);
     return 0;
 }
 
@@ -135,6 +136,9 @@ uint8_t* per_encode_RRCReject(RRCReject_t* rrcReject){
 int sendtoUE(uint8_t* buffer, InitialUE_Identity_t* ue){
     ogs_assert(ue);
     ogs_assert(buffer);
+
+    //send function
+    
     return 0;
 }
 

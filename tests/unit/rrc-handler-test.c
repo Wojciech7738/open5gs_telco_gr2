@@ -1,7 +1,7 @@
 #include "core/abts.h"
-#include "RRC/RRC_handler.h"
-#include "RRCSetupComplete-IEs.h"
-#include "RRC/ber_encode.h"
+#include "RRC_estabilisment/RRC_handler.h"
+#include "RRC_estabilisment/RRCSetupComplete-IEs.h"
+#include "RRC_estabilisment/ber_encode.h"
 
 
 static void isUEIdleState_test(abts_case *tc, void *data){
@@ -86,14 +86,18 @@ static void per_encode_RRCSetup_test(abts_case *tc, void *data){
 
 static void ChangeRRCUEState_tets(abts_case *tc, void *data){
     
-    struct RRCSetupComplete_IEs__ng_5G_S_TMSI_Value *ng_5g = malloc(sizeof(struct RRCSetupComplete_IEs__ng_5G_S_TMSI_Value));
-   
+    RRCSetupComplete_IEs__ng_5G_S_TMSI_Value_t *ng_5g = malloc(sizeof( RRCSetupComplete_IEs__ng_5G_S_TMSI_Value_t));
+    if(ng_5g==NULL)
+        ABTS_FAIL(tc,"malloc error");
     ng_5g->present = RRCSetupComplete_IEs__ng_5G_S_TMSI_Value_PR_ng_5G_S_TMSI;
     ng_5g->choice.ng_5G_S_TMSI.size = 5;
     ng_5g->choice.ng_5G_S_TMSI.bits_unused = 1;
     ng_5g->choice.ng_5G_S_TMSI.buf = malloc(sizeof(uint8_t)*ng_5g->choice.ng_5G_S_TMSI.size);
- 
+
+    ABTS_PTR_NOTNULL(tc,ng_5g);
+
     int result = ChangeRRCUEState(ng_5g, NR_RRC_CONNECTED);
+    fprintf(stderr, "%d\n", result);
     ABTS_INT_EQUAL(tc, result, 0);
 
     free(ng_5g->choice.ng_5G_S_TMSI.buf);
@@ -145,13 +149,21 @@ static void handleRRCSetupRequest_test(abts_case *tc, void *data){
   
 }
 
-static void handleRRCSetupComplete_test(abts_case *tc, void *data){
+static void handleRRCSetupComplete_test(abts_case *tc, void *data){ //do zrobienia 
     RRCSetupComplete_t rrcSetupComplete;
     rrcSetupComplete.rrc_TransactionIdentifier = 1;
+   
     rrcSetupComplete.criticalExtensions.present = RRCSetupComplete__criticalExtensions_PR_rrcSetupComplete;
-    memset(&rrcSetupComplete.criticalExtensions.choice.rrcSetupComplete,0,sizeof(RRCSetupComplete_IEs_t));
-    ABTS_INT_EQUAL(tc, handleRRCSetupComplete(&rrcSetupComplete),0);
+    rrcSetupComplete.criticalExtensions.choice.rrcSetupComplete.ng_5G_S_TMSI_Value = malloc(sizeof(RRCSetupComplete_IEs__ng_5G_S_TMSI_Value_t));
+    rrcSetupComplete.criticalExtensions.choice.rrcSetupComplete.ng_5G_S_TMSI_Value->present = RRCSetupComplete_IEs__ng_5G_S_TMSI_Value_PR_ng_5G_S_TMSI;
+    rrcSetupComplete.criticalExtensions.choice.rrcSetupComplete.ng_5G_S_TMSI_Value->choice.ng_5G_S_TMSI.size = 5;
+    rrcSetupComplete.criticalExtensions.choice.rrcSetupComplete.ng_5G_S_TMSI_Value->choice.ng_5G_S_TMSI.buf = malloc(sizeof(uint8_t)*5);
+    rrcSetupComplete.criticalExtensions.choice.rrcSetupComplete.ng_5G_S_TMSI_Value->choice.ng_5G_S_TMSI.bits_unused = 1;
 
+    int result = handleRRCSetupComplete(&rrcSetupComplete);
+    ABTS_INT_EQUAL(tc,result,0);
+    free(rrcSetupComplete.criticalExtensions.choice.rrcSetupComplete.ng_5G_S_TMSI_Value->choice.ng_5G_S_TMSI.buf);
+    
 }
 
 
@@ -335,7 +347,6 @@ abts_suite *test_rrc(abts_suite *suite)
     abts_run_test(suite, getWaitTime_test, NULL);
     abts_run_test(suite, handleRRCSetupRequest_test, NULL);
     abts_run_test(suite, handleRRCSetupComplete_test, NULL);
-  
     return suite;
 }
 
