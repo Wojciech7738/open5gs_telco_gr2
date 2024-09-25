@@ -4,18 +4,18 @@
 #include "mac_buffer.h"
 #include "pdu_handler.h"
 
-ogs_pkbuf_t* rx_buffer = NULL;
-ogs_pkbuf_t* tx_buffer = NULL;
-message_t* message_sent_from_phy = NULL;
-message_t* message_received_in_mac = NULL;
+static message_t* message_sent_from_phy = NULL;
+static message_t* message_received_in_mac = NULL;
 
 /* HELP FUNCTION'S FOR SIMULATE MSG FROM PHY */
-static void alloc_buffer(void);
+static void alloc_buffers(void);
 static void alloc_messages(void);
 static void set_message_sent_from_phy(void);
 static void fill_rx_buffer(void);
 /* TESTS */
 static void test_mac_message_get_uplink_msg(abts_case *tc, void *data);
+static void test_mac_message_get_next_pdu_from_msg(abts_case *tc, void *data);
+static void test_pdu_handler_handle_uplink_pdu(abts_case *tc, void *data);
 
 static void set_message_sent_from_phy(void)
 {
@@ -46,21 +46,22 @@ static void set_message_sent_from_phy(void)
     message_sent_from_phy->pdu[1].pusch.data[5] = 0xAA;
 }
 
-static void alloc_buffer(void)
+static void alloc_buffers(void)
 {
     int size = (MAX_PDUS_QUANTITY * sizeof(pdu_t)) + sizeof(msg_header_t);
 
-    rx_buffer = mac_buffer_rx_alloc(size);
-    ogs_assert(rx_buffer);
+    ogs_assert(mac_buffer_rx_alloc(size));
 
-    tx_buffer = mac_buffer_tx_alloc(size);
-    ogs_assert(tx_buffer);
+    ogs_assert(mac_buffer_tx_alloc(size));
 }
 
 
 static void fill_rx_buffer(void)
 {
     int size = message_sent_from_phy->header.size;
+    ogs_assert(size);
+
+    ogs_pkbuf_t* rx_buffer = mac_buffer_rx_get_ptr();
 
     ogs_pkbuf_put(rx_buffer, size);
     ogs_assert(ogs_pkbuf_pull(rx_buffer, size));
@@ -83,7 +84,7 @@ static void alloc_messages(void)
 
 static void init_data(void)
 {
-    alloc_buffer();
+    alloc_buffers();
     alloc_messages();
     set_message_sent_from_phy();
     fill_rx_buffer();
@@ -157,15 +158,10 @@ static void test_pdu_handler_handle_uplink_pdu(abts_case *tc, void *data)
 
     int no_of_decoded_bytes = 0;
 
-    ogs_pkbuf_t* mac_rx_buffer = mac_buffer_rx_get_ptr();
+    ogs_pkbuf_t* buffer = mac_buffer_rx_get_ptr();
 
-    no_of_decoded_bytes = mac_message_get_uplink_msg(message_received_in_mac, mac_rx_buffer);
-
-    if (no_of_decoded_bytes != message_received_in_mac->header.size)
-    {
-        ogs_error("mac_message_get_uplink_msg() failed!");
-        return;
-    }
+    no_of_decoded_bytes = mac_message_get_uplink_msg(message_received_in_mac, buffer);
+    ogs_assert(no_of_decoded_bytes == message_received_in_mac->header.size);
 
     pdu_t* ul_pdu_to_handle = mac_message_get_next_pdu_from_msg(message_received_in_mac);
     ABTS_PTR_NOTNULL(tc, ul_pdu_to_handle);

@@ -1,7 +1,7 @@
 #include "mac_messages.h"
 #include "decoder.h"
 
-int no_of_handled_pdus = 0;
+static int no_of_handled_pdus = 0;
 
 int mac_message_get_uplink_msg(message_t* message, ogs_pkbuf_t *pkbuf)
 {
@@ -11,8 +11,6 @@ int mac_message_get_uplink_msg(message_t* message, ogs_pkbuf_t *pkbuf)
     ogs_assert(message);
     ogs_assert(pkbuf);
     ogs_assert(pkbuf->data);
-
-    
 
     size = msg_header_decode(message, pkbuf);
     if (size < 0) {

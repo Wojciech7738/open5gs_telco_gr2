@@ -4,6 +4,9 @@ int msg_header_decode(message_t* message, ogs_pkbuf_t *pkbuf)
 {
     int size = sizeof(msg_header_t);
 
+    ogs_assert(message);
+    ogs_assert(pkbuf);
+
     if (ogs_pkbuf_pull(pkbuf, size) == NULL) {
        ogs_error("ogs_pkbuf_pull() failed [size:%d]", (int)size);
        return OGS_ERROR;
@@ -17,6 +20,9 @@ int msg_header_decode(message_t* message, ogs_pkbuf_t *pkbuf)
 int pdu_header_decode(pdu_header_t* pdu_header, ogs_pkbuf_t *pkbuf)
 {
     int size = sizeof(pdu_header_t);
+
+    ogs_assert(pdu_header);
+    ogs_assert(pkbuf);
 
     if (ogs_pkbuf_pull(pkbuf, size) == NULL) {
         ogs_error("ogs_pkbuf_pull() failed [size:%d]", (int)size);
@@ -32,6 +38,9 @@ int prach_msg_decode(prach_pdu_t* prach_pdu, ogs_pkbuf_t *pkbuf)
 {
     int size = sizeof(pdu_t) - sizeof(pdu_header_t);
 
+    ogs_assert(prach_pdu);
+    ogs_assert(pkbuf);
+
     if (ogs_pkbuf_pull(pkbuf, size) == NULL) {
        ogs_error("ogs_pkbuf_pull() failed [size:%d]", (int)size);
        return OGS_ERROR;
@@ -45,6 +54,9 @@ int prach_msg_decode(prach_pdu_t* prach_pdu, ogs_pkbuf_t *pkbuf)
 int pusch_msg_decode(pusch_pdu_t* pusch_pdu, ogs_pkbuf_t *pkbuf)
 {
     int size = sizeof(pdu_t) - sizeof(pdu_header_t);
+
+    ogs_assert(pusch_pdu);
+    ogs_assert(pkbuf);
 
     if (ogs_pkbuf_pull(pkbuf, size) == NULL) {
        ogs_error("ogs_pkbuf_pull() failed [size:%d]", (int)size);

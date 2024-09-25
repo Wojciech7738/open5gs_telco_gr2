@@ -22,6 +22,8 @@ static int handle_prach_msg(prach_pdu_t* prach_pdu)
 {
     pdu_t pdu = {0};
 
+    ogs_assert(prach_pdu);
+
     uint16_t ra_rnti = get_ra_rnti(prach_pdu->first_OFDM_symbol_idx,
                                    prach_pdu->first_slot_symbol_idx,
                                    prach_pdu->PRACH_occasion_in_freq_domain_idx,
@@ -40,22 +42,26 @@ static int handle_prach_msg(prach_pdu_t* prach_pdu)
 
 static int handle_pusch_msg(pusch_pdu_t* pusch_pdu)
 {
-    //metody pozwalajace na wkladanie do buffora?
-    //tak
+    ogs_assert(pusch_pdu);
+    //TODO
     //pusch_pdu->data
     //send_to_rlc();
-    return 1;
+    return OGS_OK;
 }
 
 int handle_uplink_pdu(pdu_t* pdu)
 {
+    int result = OGS_ERROR;
+    
+    ogs_assert(pdu);
+    
     switch (pdu->header.ul_transport_channel)
     {
     case PRACH:
-        handle_prach_msg(&pdu->prach);
+        result = handle_prach_msg(&pdu->prach);
         break;
     case PUSCH:
-        handle_pusch_msg(&pdu->pusch);
+        result = handle_pusch_msg(&pdu->pusch);
         break;
     case PUCCH:
         break;
@@ -63,5 +69,5 @@ int handle_uplink_pdu(pdu_t* pdu)
         break;
     }
 
-    return OGS_OK;
+    return result;
 }

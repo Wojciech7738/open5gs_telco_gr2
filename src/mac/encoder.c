@@ -4,6 +4,7 @@
 int encode_msg(ogs_pkbuf_t* pkbuf, pdu_t* pdu, int size)
 {
     ogs_assert(pkbuf);
+    ogs_assert(pdu);
 
     if (pkbuf->data == pkbuf->head) {
         //its first message, so we need to reserve bytes for msg_header
