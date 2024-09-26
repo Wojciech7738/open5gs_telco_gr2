@@ -1,29 +1,36 @@
-#include "nas-path.h"
-#include "ogs-log.h"
+#include "auth_request.h"
 
-// Function to pack and send AuthenticationRequest using nas_5gs_send_authentication_request
-void send_authentication_request(amf_ue_t *amf_ue, struct AuthenticationRequest *auth_req) {
-    DedicatedNAS_Message_t nas_message;
-
-    // Step 1: Pack the AuthenticationRequest into the NAS message
-    if (pack_authentication_request(auth_req, &nas_message) != 0) {
-        ogs_log_err("Failed to pack Authentication Request.");
-        return;
+int receive_authorization_request(uint8_t* nas_message) {
+    int size = 0;
+    DedicatedNAS_Message_t* dedicated_nas_message = (DedicatedNAS_Message_t*)malloc(sizeof(DedicatedNAS_Message_t));
+    if (dedicated_nas_message == NULL) {
+        printf("Memory allocation failed for NAS message.\n");
+        return OGS_ERROR;
+    }
+    dedicated_nas_message->size = get_message_length(nas_message);
+    dedicated_nas_message->buf = (uint8_t*)malloc(dedicated_nas_message->size * sizeof(uint8_t));
+    if (dedicated_nas_message->buf == NULL) {
+        printf("Memory allocation failed for message content.\n");
+        free(dedicated_nas_message->buf);
+        free(dedicated_nas_message);
+        return OGS_ERROR;
     }
 
-    // Step 2: Create a packet buffer for NAS message
-    ogs_pkbuf_t *pkbuf = ogs_pkbuf_alloc(nas_message.buf, nas_message.size);
+    memcpy(dedicated_nas_message->buf, nas_message, sizeof(nas_message));
+    
+    ogs_pkbuf_t *pkbuf = ogs_pkbuf_alloc(NULL, dedicated_nas_message->size);
     if (!pkbuf) {
-        ogs_log_err("Failed to allocate packet buffer for Authentication Request.");
-        return;
+        printf("Failed to allocate packet buffer for Authentication Response.");
+        return OGS_ERROR;
     }
+    ogs_pkbuf_put(pkbuf, dedicated_nas_message->size);
+    size = sizeof(uint8_t) * dedicated_nas_message->size;
+    ogs_assert(ogs_pkbuf_pull(pkbuf, size));
+    memcpy(pkbuf->data - size, dedicated_nas_message->buf, size);
 
-    // Step 3: Send the Authentication Request to the gNB using nas_5gs_send_to_gnb
-    if (nas_5gs_send_to_gnb(amf_ue, pkbuf) != 0) {
-        ogs_log_err("Failed to send Authentication Request to gNB.");
-    }
-
-    // Clean up
+    int result = send_message_to_L3(pkbuf, AMF_SHARED_MEM);
     ogs_pkbuf_free(pkbuf);
-    free(nas_message.buf);
+    free(dedicated_nas_message->buf);
+    free(dedicated_nas_message);
+    return result;
 }
