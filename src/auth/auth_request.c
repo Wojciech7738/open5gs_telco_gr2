@@ -1,28 +1,32 @@
 #include "auth_request.h"
 
-// Function to pack and send AuthenticationRequest using nas_5gs_send_authentication_request
-void send_authentication_request(amf_ue_t *amf_ue, struct AuthenticationRequest *auth_req) {
-    DedicatedNAS_Message_t nas_message;
 
-    // Step 1: Pack the AuthenticationRequest into the NAS message
-    if (pack_authentication_request(auth_req, &nas_message) != 0) {
-        ogs_log_err("Failed to pack Authentication Request.");
+void receive_NAS_message(uint8_t* nas_message) {
+    DedicatedNAS_Message_t* dedicated_nas_message = (DedicatedNAS_Message_t*)malloc(sizeof(DedicatedNAS_Message_t));
+    if (dedicated_nas_message == NULL) {
+        printf("Memory allocation failed for NAS message.\n");
+        return;
+    }
+    dedicated_nas_message->size = get_message_length(nas_message);
+    dedicated_nas_message->buf = (uint8_t*)malloc(dedicated_nas_message->size * sizeof(uint8_t));
+    if (dedicated_nas_message->buf == NULL) {
+        printf("Memory allocation failed for message content.\n");
+        free(dedicated_nas_message->buf);
+        free(dedicated_nas_message);
         return;
     }
 
-    // Step 2: Create a packet buffer for NAS message
-    ogs_pkbuf_t *pkbuf = ogs_pkbuf_alloc(nas_message.buf, nas_message.size);
+    memcpy(dedicated_nas_message->buf, nas_message, sizeof(nas_message));
+
+    ogs_pkbuf_t *pkbuf = ogs_pkbuf_alloc(dedicated_nas_message->buf, dedicated_nas_message->size);
     if (!pkbuf) {
-        ogs_log_err("Failed to allocate packet buffer for Authentication Request.");
+        printf("Failed to allocate packet buffer for Authentication Response.");
         return;
     }
 
-    // Step 3: Send the Authentication Request to the gNB using nas_5gs_send_to_gnb
-    if (nas_5gs_send_to_gnb(amf_ue, pkbuf) != 0) {
-        ogs_log_err("Failed to send Authentication Request to gNB.");
-    }
+    send_message_to_L3(pkbuf, AMF_SHARED_MEM);
 
-    // Clean up
     ogs_pkbuf_free(pkbuf);
-    free(nas_message.buf);
+    free(dedicated_nas_message->buf);
+    free(dedicated_nas_message);
 }

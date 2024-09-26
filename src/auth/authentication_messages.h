@@ -42,11 +42,4 @@ struct EAP_Failure {
     uint16_t length;            // Total length of the EAP message
 };
 
-struct NAS_Message {
-    uint8_t message_type;         // NAS message type (e.g., Authentication Request, Response)
-    uint16_t message_length;      // Length of the encapsulated message
-    uint8_t *message_content;     // Pointer to the encapsulated message (e.g., AuthenticationRequest, AuthenticationResponse)
-};
-
-
 #endif
