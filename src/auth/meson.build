@@ -1,16 +1,7 @@
 
 libauth_sources = files(
-  'l3_modules.c',
-  'l3_modules.h',
-  'auth_request.c',
   'auth_request.h',
-  'auth_response.c',
   'auth_response.h',
-  'authentication_messages.h',
-  'authorization_messages.h',
-  'common.h',
-  'common.c',
-  'DedicatedNAS-Message.h',
   )
 
 libauth_inc = include_directories('.')

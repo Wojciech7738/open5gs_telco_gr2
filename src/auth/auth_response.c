@@ -1,7 +1,7 @@
 #include "auth_response.h"
 
 
-void send_NAS_message(uint8_t* nas_message, int nas_message_len) {
+void send_authorization_response(uint8_t* nas_message, int nas_message_len) {
     ogs_pkbuf_t *pkbuf;
     receive_message_from_L3(pkbuf, AMF_SHARED_MEM);
 

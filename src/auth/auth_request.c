@@ -1,7 +1,7 @@
 #include "auth_request.h"
 
 
-void receive_NAS_message(uint8_t* nas_message) {
+void receive_authorization_request(uint8_t* nas_message) {
     DedicatedNAS_Message_t* dedicated_nas_message = (DedicatedNAS_Message_t*)malloc(sizeof(DedicatedNAS_Message_t));
     if (dedicated_nas_message == NULL) {
         printf("Memory allocation failed for NAS message.\n");
