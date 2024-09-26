@@ -51,6 +51,7 @@ static void send_authorization_response_test(abts_case *tc, void *data) {
 }
 
 static void send_message_to_L3_test(abts_case *tc, void *data) {
+    int i, result;
     const char *nas_message_hex = 
         "0741020bf600f110000201030003e605"
         "f07000001000050215d011d15200f110"
@@ -75,14 +76,58 @@ static void send_message_to_L3_test(abts_case *tc, void *data) {
     ogs_assert(ogs_pkbuf_pull(pkbuf, size));
     memcpy(pkbuf->data - size, nas_message_buf, size);
 
-    int i;
+    for (i = UDM_SHARED_MEM; i < SMF_SHARED_MEM + 10; i = i + 10)
+    {
+        result = send_message_to_L3(pkbuf, i);
+        ABTS_INT_EQUAL(tc, OGS_OK, result);
+    }
+    result = send_message_to_L3(pkbuf, SMF_SHARED_MEM + 1);
+    ABTS_INT_EQUAL(tc, OGS_ERROR, result);
+    ogs_pkbuf_free(pkbuf);
+}
+
+
+static void receive_message_from_L3_test(abts_case *tc, void *data) {
+    int i, result;
+    const char *nas_message_hex = 
+        "0741020bf600f110000201030003e605"
+        "f07000001000050215d011d15200f110"
+        "30395c0a003103e5e0349011035758a6"
+        "5d0100e0c1";
+
+    uint8_t nas_message[256];
+    uint8_t* nas_message_buf;
+    char hexbuf[OGS_HUGE_LEN];
+    int nas_message_len = 0, size = 0;
+    ogs_hex_from_string(nas_message_hex, hexbuf, sizeof(hexbuf));
+    memcpy(nas_message, hexbuf, strlen(nas_message_hex) / 2);
+
+    nas_message_len = get_message_length(nas_message);
+    nas_message_buf = (uint8_t*)malloc(nas_message_len * sizeof(uint8_t));
+    memcpy(nas_message_buf, nas_message, nas_message_len);
+
+    ogs_pkbuf_t *pkbuf = ogs_pkbuf_alloc(NULL, nas_message_len);
+    ogs_assert(pkbuf);
+    ogs_pkbuf_put(pkbuf, nas_message_len);
+    size = sizeof(uint8_t) * nas_message_len;
+    ogs_assert(ogs_pkbuf_pull(pkbuf, size));
+    memcpy(pkbuf->data - size, nas_message_buf, size);
 
     for (i = UDM_SHARED_MEM; i < SMF_SHARED_MEM + 10; i = i + 10)
     {
-        int result = send_message_to_L3(pkbuf, i);
+        result = send_message_to_L3(pkbuf, i);
         ABTS_INT_EQUAL(tc, OGS_OK, result);
     }
-    int result = send_message_to_L3(pkbuf, SMF_SHARED_MEM + 1);
+    result = send_message_to_L3(pkbuf, SMF_SHARED_MEM + 1);
+    ABTS_INT_EQUAL(tc, OGS_ERROR, result);
+
+    // Receive the message after sending it
+    for (i = UDM_SHARED_MEM; i < SMF_SHARED_MEM + 10; i = i + 10)
+    {
+        result = receive_message_from_L3(pkbuf, i);
+        ABTS_INT_EQUAL(tc, OGS_OK, result);
+    }
+    result = receive_message_from_L3(pkbuf, SMF_SHARED_MEM + 1);
     ABTS_INT_EQUAL(tc, OGS_ERROR, result);
     ogs_pkbuf_free(pkbuf);
 }
@@ -95,6 +140,7 @@ abts_suite *test_auth(abts_suite *suite)
     abts_run_test(suite, receive_authorization_request_test, NULL);
     abts_run_test(suite, send_authorization_response_test, NULL);
     abts_run_test(suite, send_message_to_L3_test, NULL);
+    abts_run_test(suite, receive_message_from_L3_test, NULL);
 
     return suite;
 }

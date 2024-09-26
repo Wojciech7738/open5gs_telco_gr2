@@ -1,18 +1,7 @@
 #include "l3_modules.h"
 
 int send_message_to_L3(ogs_pkbuf_t* message, int module_number) {
-	switch (module_number)
-	{
-		case UDM_SHARED_MEM:
-		case PCF_SHARED_MEM:
-		case NSSAF_SHARED_MEM:
-		case AMF_SHARED_MEM:
-		case UE_SHARED_MEM:
-		case SMF_SHARED_MEM:
-			break;
-		default:
-			return OGS_ERROR;
-	}
+	VALIDATE_MODULE_NUMBER(module_number);
 
 	int shm_id = shmget(SHM_KEY + module_number, SHM_SIZE, 0666 | IPC_CREAT);
 	if (shm_id == -1) {
@@ -37,6 +26,7 @@ int send_message_to_L3(ogs_pkbuf_t* message, int module_number) {
 
 
 int receive_message_from_L3(ogs_pkbuf_t* message, int module_number) {
+	VALIDATE_MODULE_NUMBER(module_number);
     int shm_id = shmget(SHM_KEY + module_number, SHM_SIZE, 0666 | IPC_CREAT);
 	if (shm_id == -1) {
 		ogs_error("shmget faileď");
