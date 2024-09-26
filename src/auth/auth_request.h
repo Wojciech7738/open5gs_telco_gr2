@@ -7,6 +7,6 @@
 #include "DedicatedNAS-Message.h"
 #include "common.h"
 
-void receive_authorization_request(uint8_t* nas_message);
+int receive_authorization_request(uint8_t* nas_message);
 
 #endif
