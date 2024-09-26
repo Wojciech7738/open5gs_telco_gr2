@@ -24,6 +24,7 @@ static void receive_authorization_request_test(abts_case *tc, void *data) {
 
 
 static void send_authorization_response_test(abts_case *tc, void *data) {
+    int len;
     const char *nas_message_hex = 
         "0741020bf600f110000201030003e605"
         "f07000001000050215d011d15200f110"
@@ -44,8 +45,9 @@ static void send_authorization_response_test(abts_case *tc, void *data) {
     ogs_assert(nas_message_ptr);
 
     // Compare the received message
-    int cmp_result = memcmp(nas_message_ptr, expected_message, sizeof(expected_message));
-    ABTS_INT_EQUAL(tc, 0, cmp_result);  // 0 means the memory regions are equal
+    len = strlen(expected_message);
+    int cmp_result = memcmp(nas_message_ptr, expected_message, len);
+    ABTS_INT_EQUAL(tc, 0, cmp_result);
 }
 
 static void send_message_to_L3_test(abts_case *tc, void *data) {
@@ -58,7 +60,7 @@ static void send_message_to_L3_test(abts_case *tc, void *data) {
     uint8_t nas_message[256];
     uint8_t* nas_message_buf;
     char hexbuf[OGS_HUGE_LEN];
-    int nas_message_len = 0;
+    int nas_message_len = 0, size = 0;
     ogs_hex_from_string(nas_message_hex, hexbuf, sizeof(hexbuf));
     memcpy(nas_message, hexbuf, strlen(nas_message_hex) / 2);
 
@@ -66,8 +68,12 @@ static void send_message_to_L3_test(abts_case *tc, void *data) {
     nas_message_buf = (uint8_t*)malloc(nas_message_len * sizeof(uint8_t));
     memcpy(nas_message_buf, nas_message, nas_message_len);
 
-    ogs_pkbuf_t *pkbuf = ogs_pkbuf_alloc(nas_message, nas_message_len);
+    ogs_pkbuf_t *pkbuf = ogs_pkbuf_alloc(NULL, nas_message_len);
     ogs_assert(pkbuf);
+    ogs_pkbuf_put(pkbuf, nas_message_len);
+    size = sizeof(uint8_t) * nas_message_len;
+    ogs_assert(ogs_pkbuf_pull(pkbuf, size));
+    memcpy(pkbuf->data - size, nas_message_buf, size);
 
     int i;
 
